@@ -1,0 +1,58 @@
+- Apexclass- CalculatorController.apxc
+public class CalculatorController {
+    public Decimal num1 {get; set;}
+    public Decimal num2 {get; set;}
+    public Decimal result {get; set;}
+    public String operation {get; set;}
+
+    public void calculate() {
+        if(operation == 'add') {
+            result = num1 + num2;
+        } else if(operation == 'subtract') {
+            result = num1 - num2;
+        } else if(operation == 'multiply') {
+            result = num1 * num2;
+        } else if(operation == 'divide') {
+            if(num2 != 0) {
+                result = num1 / num2;
+            } else {
+                result = null;
+                ApexPages.addMessage(new ApexPages.Message(
+                    ApexPages.Severity.ERROR, 'Cannot divide by zero'
+                ));
+            }
+        }
+    }
+}
+
+-visualforce page CalculatorPage.vpf-
+
+<apex:page controller="CalculatorController">
+    <apex:form >
+        <apex:pageBlock title="Simple Calculator">
+
+            <apex:pageMessages />
+
+            <apex:pageBlockSection columns="1">
+                <apex:inputText value="{!num1}" label="Number 1"/>
+                <apex:inputText value="{!num2}" label="Number 2"/>
+
+                <apex:selectRadio value="{!operation}">
+                    <apex:selectOption itemValue="add" itemLabel="Add"/>
+                    <apex:selectOption itemValue="subtract" itemLabel="Subtract"/>
+                    <apex:selectOption itemValue="multiply" itemLabel="Multiply"/>
+                    <apex:selectOption itemValue="divide" itemLabel="Divide"/>
+                </apex:selectRadio>
+            </apex:pageBlockSection>
+
+            <apex:pageBlockButtons >
+                <apex:commandButton value="Calculate" action="{!calculate}"/>
+            </apex:pageBlockButtons>
+
+            <apex:outputPanel rendered="{!NOT(ISNULL(result))}">
+                <h3>Result: {!result}</h3>
+            </apex:outputPanel>
+
+        </apex:pageBlock>
+    </apex:form>
+</apex:page>
