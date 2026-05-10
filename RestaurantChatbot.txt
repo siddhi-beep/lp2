@@ -1,0 +1,80 @@
+import java.util.*;
+
+public class RestaurantChatbot {
+
+    public static void main(String[] args) {
+
+        Scanner sc = new Scanner(System.in);
+        String input;
+
+        System.out.println(
+                "Chatbot: Hello! Welcome to Food Restaurant."
+        );
+        System.out.println(
+                "Chatbot: Ask me about menu, price, timing or order."
+        );
+
+        while (true) {
+
+            System.out.print("You: ");
+
+            input = sc.nextLine().toLowerCase();
+
+            if (input.contains("hello")
+                    || input.contains("hi")) {
+
+                System.out.println(
+                        "Chatbot: Hello! How can I help you?"
+                );
+            }
+
+            else if (input.contains("menu")) {
+
+                System.out.println(
+                        "Chatbot: We have Pizza, Burger, Pasta and Sandwich."
+                );
+            }
+
+            else if (input.contains("price")) {
+
+                System.out.println(
+                        "Chatbot: Prices start from Rs.100."
+                );
+            }
+
+            else if (input.contains("timing")
+                    || input.contains("open")) {
+
+                System.out.println(
+                        "Chatbot: We are open from 10 AM to 11 PM."
+                );
+            }
+
+            else if (input.contains("order")) {
+
+                System.out.println(
+                        "Chatbot: Your order will be delivered in 30 minutes."
+                );
+            }
+
+            else if (input.contains("bye")
+                    || input.contains("exit")) {
+
+                System.out.println(
+                        "Chatbot: Thank you! Visit again."
+                );
+
+                break;
+            }
+
+            else {
+
+                System.out.println(
+                        "Chatbot: Sorry, I didn't understand."
+                );
+            }
+        }
+
+        sc.close();
+    }
+}

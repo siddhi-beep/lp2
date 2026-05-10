@@ -1,0 +1,77 @@
+import java.util.*;
+public class GraphTraversal{
+    private LinkedList<Integer>adj[];
+    GraphTraversal(int vertices){
+        adj= new LinkedList[vertices];
+
+        for(int i=0; i< vertices;i++){
+            adj[i]= new LinkedList<>();
+        }
+    }
+    void addEdge(int v, int w){
+        adj[v].add(w);
+        adj[w].add(v);
+    }
+
+    void DFS(int vertex, boolean visited[]){
+        visited[vertex]=true;
+        System.out.print(vertex +" ");
+
+        Iterator<Integer> i= adj[vertex].listIterator();
+        while(i.hasNext()){
+            int n= i.next();
+            if(!visited[n]){
+                DFS(n,visited);
+            }
+        }
+    }
+
+    void BFS( int startvertex){
+        boolean visited[]= new boolean[adj.length];
+        Queue<Integer>queue= new LinkedList<>();
+        visited[startvertex]=true;
+        queue.add(startvertex);
+        while(!queue.isEmpty()){
+            int vertex =queue.poll();
+            System.out.print(vertex+" ");
+            Iterator<Integer> i= adj[vertex].listIterator();
+            while(i.hasNext()){
+                int n= i.next();
+                if(!visited[n]){
+                    visited[n]= true;
+                    queue.add(n);
+                }
+            }
+        }
+    }
+
+    public static void main(String args[]){
+        Scanner sc= new Scanner(System.in);
+        System.out.print("Enter number of vertices:");
+        int vertices= sc.nextInt();
+        GraphTraversal g= new GraphTraversal(vertices);
+
+        System.out.print("ENter number of edges:");
+        int edges= sc.nextInt();
+
+        System.out.print("enter edges:");
+        for(int i=0; i<edges; i++){
+            int v=sc.nextInt();
+            int w= sc.nextInt();
+            g.addEdge(v,w);
+        }
+
+        System.out.print("enter starting vertex:");
+        int start= sc.nextInt();
+        //Dfs:
+        System.out.print("\nDfs traversal:");
+        boolean visited[]= new boolean[vertices];
+        g.DFS(start, visited);
+
+        //bfs:
+        System.out.print("Bfs traversal:");
+        g.BFS(start);
+        sc.close();
+    }
+
+}

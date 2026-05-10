@@ -1,0 +1,545 @@
+//selection sort
+import java.util.*;
+public class SelectionSort{
+    public static void selectionSort(int arr[], int n){
+        for(int i=0;i<n-1;i++){
+            int min=i;
+            for(int j=i+1;j<n;j++){
+                if(arr[j]<arr[min]){
+                    min=j;
+                }
+            }
+            int temp=arr[i];
+            arr[i]=arr[min];
+            arr[min]=temp;
+        }
+    }
+    public static void main(String[] args) {
+
+        Scanner sc = new Scanner(System.in);
+
+        System.out.print("Enter number of elements: ");
+        int n = sc.nextInt();
+
+        int arr[] = new int[n];
+
+        System.out.println("Enter elements:");
+
+        for (int i = 0; i < n; i++) {
+
+            arr[i] = sc.nextInt();
+        }
+
+        selectionSort(arr, n);
+
+        System.out.println("Sorted Array:");
+
+        for (int i = 0; i < n; i++) {
+
+            System.out.print(arr[i] + " ");
+        }
+
+        sc.close();
+    }
+}
+
+//PrimsMST
+import java.util.*;
+
+public class PrimsMST {
+
+    public static void main(String[] args) {
+
+        Scanner sc = new Scanner(System.in);
+
+        System.out.print(
+                "Enter number of vertices: "
+        );
+
+        int n = sc.nextInt();
+
+        int graph[][] =
+                new int[n][n];
+
+        System.out.println(
+                "Enter adjacency matrix:"
+        );
+
+        for (int i = 0; i < n; i++) {
+
+            for (int j = 0; j < n; j++) {
+
+                graph[i][j] =
+                        sc.nextInt();
+            }
+        }
+
+        boolean visited[] =
+                new boolean[n];
+
+        visited[0] = true;
+
+        int edge = 0;
+        int minCost = 0;
+
+        System.out.println(
+                "Edges in MST:"
+        );
+
+        while (edge < n - 1) {
+
+            int min = Integer.MAX_VALUE;
+
+            int x = 0;
+            int y = 0;
+
+            for (int i = 0;
+                 i < n;
+                 i++) {
+
+                if (visited[i]) {
+
+                    for (int j = 0;
+                         j < n;
+                         j++) {
+
+                        if (!visited[j]
+                                && graph[i][j]
+                                != 0) {
+
+                            if (graph[i][j]
+                                    < min) {
+
+                                min =
+                                        graph[i][j];
+
+                                x = i;
+                                y = j;
+                            }
+                        }
+                    }
+                }
+            }
+
+            System.out.println(
+                    x + " - "
+                            + y
+                            + " : "
+                            + graph[x][y]
+            );
+
+            minCost +=
+                    graph[x][y];
+
+            visited[y] = true;
+
+            edge++;
+        }
+
+        System.out.println(
+                "Minimum Cost = "
+                        + minCost
+        );
+
+        sc.close();
+    }
+}
+//Type like this:
+
+/*4
+0 10 6 5
+10 0 0 15
+6 0 0 4
+5 15 4 0*/
+
+//KruskalMST
+import java.util.*;
+
+class Edge {
+
+    int source;
+    int destination;
+    int weight;
+
+    Edge(int s, int d, int w) {
+
+        source = s;
+        destination = d;
+        weight = w;
+    }
+}
+
+public class KruskalMST {
+
+    static int find(
+            int parent[],
+            int i
+    ) {
+
+        while (parent[i] != i) {
+
+            i = parent[i];
+        }
+
+        return i;
+    }
+
+    static void union(
+            int parent[],
+            int x,
+            int y
+    ) {
+
+        int xSet = find(
+                parent, x
+        );
+
+        int ySet = find(
+                parent, y
+        );
+
+        parent[xSet] = ySet;
+    }
+
+    public static void main(
+            String[] args
+    ) {
+
+        Scanner sc =
+                new Scanner(System.in);
+
+        System.out.print(
+                "Enter number of vertices: "
+        );
+
+        int vertices =
+                sc.nextInt();
+
+        System.out.print(
+                "Enter number of edges: "
+        );
+
+        int e = sc.nextInt();
+
+        Edge edges[] =
+                new Edge[e];
+
+        System.out.println(
+                "Enter source destination weight:"
+        );
+
+        for (int i = 0;
+             i < e;
+             i++) {
+
+            int s =
+                    sc.nextInt();
+
+            int d =
+                    sc.nextInt();
+
+            int w =
+                    sc.nextInt();
+
+            edges[i] =
+                    new Edge(
+                            s,
+                            d,
+                            w
+                    );
+        }
+
+        // Sort edges
+        Arrays.sort(
+                edges,
+                (a, b) ->
+                        a.weight
+                                - b.weight
+        );
+
+        int parent[] =
+                new int[vertices];
+
+        for (int i = 0;
+             i < vertices;
+             i++) {
+
+            parent[i] = i;
+        }
+
+        int minCost = 0;
+
+        System.out.println(
+                "Edges in MST:"
+        );
+
+        for (int i = 0;
+             i < e;
+             i++) {
+
+            int x =
+                    find(
+                            parent,
+                            edges[i]
+                                    .source
+                    );
+
+            int y =
+                    find(
+                            parent,
+                            edges[i]
+                                    .destination
+                    );
+
+            if (x != y) {
+
+                System.out.println(
+                        edges[i]
+                                .source
+                                + " - "
+                                + edges[i]
+                                .destination
+                                + " : "
+                                + edges[i]
+                                .weight
+                );
+
+                minCost +=
+                        edges[i]
+                                .weight;
+
+                union(
+                        parent,
+                        x,
+                        y
+                );
+            }
+        }
+
+        System.out.println(
+                "Minimum Cost = "
+                        + minCost
+        );
+
+        sc.close();
+    }
+}
+/*3
+3
+0 1 4
+0 2 2
+1 2 5 */
+
+//Dijkstra
+import java.util.*;
+
+public class Dijkstra {
+
+    public static void main(String[] args) {
+
+        Scanner sc = new Scanner(System.in);
+
+        System.out.print(
+                "Enter number of vertices: "
+        );
+
+        int n = sc.nextInt();
+
+        int graph[][] =
+                new int[n][n];
+
+        System.out.println(
+                "Enter adjacency matrix:"
+        );
+
+        for (int i = 0; i < n; i++) {
+
+            for (int j = 0; j < n; j++) {
+
+                graph[i][j] =
+                        sc.nextInt();
+            }
+        }
+
+        System.out.print(
+                "Enter source vertex: "
+        );
+
+        int source =
+                sc.nextInt();
+
+        int distance[] =
+                new int[n];
+
+        boolean visited[] =
+                new boolean[n];
+
+        // Initialize distance
+        for (int i = 0; i < n; i++) {
+
+            distance[i] =
+                    Integer.MAX_VALUE;
+        }
+
+        distance[source] = 0;
+
+        for (int count = 0;
+             count < n - 1;
+             count++) {
+
+            int min =
+                    Integer.MAX_VALUE;
+
+            int u = -1;
+
+            // Find minimum distance vertex
+            for (int i = 0;
+                 i < n;
+                 i++) {
+
+                if (!visited[i]
+                        && distance[i]
+                        < min) {
+
+                    min =
+                            distance[i];
+
+                    u = i;
+                }
+            }
+
+            visited[u] = true;
+
+            // Update distances
+            for (int v = 0;
+                 v < n;
+                 v++) {
+
+                if (!visited[v]
+                        && graph[u][v] != 0
+                        && distance[u]
+                        != Integer.MAX_VALUE
+                        && distance[u]
+                        + graph[u][v]
+                        < distance[v]) {
+
+                    distance[v] =
+                            distance[u]
+                            + graph[u][v];
+                }
+            }
+        }
+
+        System.out.println(
+                "\nShortest Distance:"
+        );
+
+        for (int i = 0; i < n; i++) {
+
+            System.out.println(
+                    source
+                            + " -> "
+                            + i
+                            + " = "
+                            + distance[i]
+            );
+        }
+
+        sc.close();
+    }
+}
+/*3
+0 4 2
+4 0 5
+2 5 0
+0 */
+
+//FCFS
+import java.util.*;
+
+public class FCFS {
+
+    public static void main(String[] args) {
+
+        Scanner sc = new Scanner(System.in);
+
+        // Number of processes
+        System.out.print(
+                "Enter number of processes: "
+        );
+
+        int n = sc.nextInt();
+
+        int bt[] = new int[n]; // Burst Time
+        int wt[] = new int[n]; // Waiting Time
+        int tat[] = new int[n]; // Turn Around Time
+
+        // Input burst time
+        System.out.println(
+                "Enter Burst Time:"
+        );
+
+        for (int i = 0; i < n; i++) {
+
+            System.out.print(
+                    "Process P" + (i + 1)
+                            + ": "
+            );
+
+            bt[i] = sc.nextInt();
+        }
+
+        // Calculate waiting time
+        wt[0] = 0;
+
+        for (int i = 1; i < n; i++) {
+
+            wt[i] =
+                    wt[i - 1]
+                    + bt[i - 1];
+        }
+
+        // Calculate turnaround time
+        for (int i = 0; i < n; i++) {
+
+            tat[i] =
+                    wt[i]
+                    + bt[i];
+        }
+
+        double totalWT = 0;
+        double totalTAT = 0;
+
+        System.out.println(
+                "\nProcess\tBT\tWT\tTAT"
+        );
+
+        for (int i = 0; i < n; i++) {
+
+            totalWT += wt[i];
+            totalTAT += tat[i];
+
+            System.out.println(
+                    "P" + (i + 1)
+                            + "\t"
+                            + bt[i]
+                            + "\t"
+                            + wt[i]
+                            + "\t"
+                            + tat[i]
+            );
+        }
+
+        System.out.println(
+                "\nAverage Waiting Time: "
+                        + (totalWT / n)
+        );
+
+        System.out.println(
+                "Average Turnaround Time: "
+                        + (totalTAT / n)
+        );
+
+        sc.close();
+    }
+}
